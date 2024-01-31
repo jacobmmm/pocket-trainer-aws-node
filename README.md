@@ -1,6 +1,6 @@
 <!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
+title: 'Pocket Trainer'
+description: 'This project contains the HTTP APIs for a muscle building website that provides customised workouts by taking in the muscles and submuscles as inputs. These APIs have been implemented using Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
 layout: Doc
 framework: v3
 platform: AWS

@@ -1,0 +1,311 @@
+org: jacobmammenjacob20
+app: myserverlessproject
+service: pocket-trainer-aws-node
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  lambdaHashingVersion: "20201221"
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-east-1:282087100037:table/UserDetails
+        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleBuildPlansV2
+        - arn:aws:lambda:us-east-1:282087100037:function:pocket-trainer-aws-node-dev-getPlans
+        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleGroup/index/muscle_group_attributes
+        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleGroup
+        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleSubGroup
+        - arn:aws:dynamodb:us-east-1:282087100037:table/Excercises
+
+plugins:
+  - serverless-plugin-optimize
+
+functions:
+  hello:
+    handler: src/userRegistration.handler
+    events:
+      - httpApi:
+          path: /
+          method: post
+    layers:
+      - arn:aws:lambda:us-east-1:282087100037:layer:bcrypt_layer:1
+
+  login:
+    handler: src/userLogin.handler
+    events:
+      - httpApi:
+          path: /userLogin
+          method: get
+
+  fetchToDos:
+    handler: src/fetchToDos.handler
+    events:
+      - httpApi:
+          path: /users
+          method: get
+
+  fetchToDo:
+    handler: src/fetchToDo.handler
+    events:
+      - httpApi:
+          path: /users/{userid}
+          method: get
+
+  getPlans:
+    handler: src/enteringPlans.handler
+    events:
+      - httpApi:
+          path: /workoutPlans
+          method: get
+
+  addMuscles:
+    handler: src/addMuscleGroups.handler
+    events:
+      - httpApi:
+          path: /insertMuscles
+          method: post
+
+  getMuscles:
+    handler: src/fetchMuscles.handler
+    events:
+      - httpApi:
+          path: /getMuscles
+          method: get
+
+  addSubMuscles:
+    handler: src/addSubGroups.handler
+    events:
+      - httpApi:
+          path: /insertSubMuscles
+          method: post
+
+  addExcercises:
+    handler: src/addExcercises.handler
+    events:
+      - httpApi:
+          path: /insertExcercises
+          method: post
+
+  subMuscleMuscle:
+    handler: src/subMuscleMuscle.handler
+    events:
+      - httpApi:
+          path: /subMuscleMuscle/{muscle}
+          method: get
+
+  subMuscleExcercise:
+    handler: src/subMuscleExcercise.handler
+    events:
+      - httpApi:
+          path: /subMuscleExcercise/{submuscle}
+          method: get
+
+  excExcercise:
+    handler: src/excExcercise.handler
+    events:
+      - httpApi:
+          path: /similarExcercise/{excercise}
+          method: get
+
+  getUserPlan:
+    handler: src/fetchUserPlans.handler
+    events:
+      - httpApi:
+          path: /userplan/{muscle_plan}
+          method: get
+
+resources:
+  Resources:
+    UserDetails:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserDetails
+        #BillingMode: PAY_PER_REQUEST
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: userid
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: userid
+            KeyType: HASH
+    MuscleBuildPlansV2:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: MuscleBuildPlansV2
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: muscle_plan_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: muscle_plan_id
+            KeyType: HASH
+
+    MuscleGroup:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: MuscleGroup
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: muscle_group_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: muscle_group_id
+            KeyType: HASH
+
+    MuscleSubGroup:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: MuscleSubGroup
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: muscle_subgroup_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: muscle_subgroup_id
+            KeyType: HASH
+
+    MuscleSubPlan:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: MuscleSubPlan
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: muscle_subplan_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: muscle_subplan_id
+            KeyType: HASH
+
+    MusclePlanUser:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: MusclePlanUser
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: muscle_plan_user
+            AttributeType: S
+          - AttributeName: muscle_plan_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: muscle_plan_user
+            KeyType: HASH
+          - AttributeName: muscle_plan_id
+            KeyType: RANGE
+
+    Excercises:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Excercises
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: excercise_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: excercise_id
+            KeyType: HASH
+
+    UserPlan:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserPlan
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: user_id
+            AttributeType: S
+          - AttributeName: muscle_plan_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: user_id
+            KeyType: HASH
+          - AttributeName: muscle_plan_id
+            KeyType: RANGE
+
+    PlanExcercise:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PlanExcercise
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: muscle_plan_id
+            AttributeType: S
+          - AttributeName: excercise_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: muscle_plan_id
+            KeyType: HASH
+          - AttributeName: excercise_id
+            KeyType: RANGE
+
+    UserExcerciseLogs:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserExcerciseLogs
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: user_excercise_id
+            AttributeType: S
+          - AttributeName: weight_reps
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: user_excercise_id
+            KeyType: HASH
+          - AttributeName: weight_reps
+            KeyType: RANGE
+
+    UserExcercise:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserExcercise
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: user_excercise_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: user_excercise_id
+            KeyType: HASH

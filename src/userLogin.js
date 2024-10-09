@@ -13,13 +13,23 @@ const login = async (event) => {
     console.log("username:",username,"password:",password);
 
     // Query DynamoDB to find the user with the given username
+
     const params = {
       TableName,
-      KeyConditionExpression: 'userid = :userid',
+      KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: {
-        ':userid': username,
+        ':email': username,
       },
     };
+
+
+    // const params = {
+    //   TableName,
+    //   KeyConditionExpression: 'userid = :userid',
+    //   ExpressionAttributeValues: {
+    //     ':userid': username,
+    //   },
+    // };
 
     const result = await dynamodb.query(params).promise();
     console.log("User Queried")

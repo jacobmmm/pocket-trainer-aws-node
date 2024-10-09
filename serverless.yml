@@ -20,6 +20,10 @@ provider:
         - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleGroup
         - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleSubGroup
         - arn:aws:dynamodb:us-east-1:282087100037:table/Excercises
+        - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUser2
+        - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUserSubMuscle2
+        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleSubPlan
+        - arn:aws:lambda:us-east-1:730335515139:function:pocket-trainer-aws-node-dev-hello
 
 plugins:
   - serverless-plugin-optimize
@@ -31,8 +35,8 @@ functions:
       - httpApi:
           path: /
           method: post
-    layers:
-      - arn:aws:lambda:us-east-1:282087100037:layer:bcrypt_layer:1
+    #layers:
+    #  - arn:aws:lambda:us-east-1:282087100037:layer:bcrypt_layer:1
 
   login:
     handler: src/userLogin.handler
@@ -60,6 +64,13 @@ functions:
     events:
       - httpApi:
           path: /workoutPlans
+          method: get
+
+  getMuscleExcercise2:
+    handler: src/muscleExcercise.handler
+    events:
+      - httpApi:
+          path: /viewWorkoutPlans/{muscle_group}
           method: get
 
   addMuscles:
@@ -115,8 +126,29 @@ functions:
     handler: src/fetchUserPlans.handler
     events:
       - httpApi:
-          path: /userplan/{muscle_plan}
+          path: /userplans
           method: get
+
+  setUserMusclePlan:
+    handler: src/linkMusclePlan.handler
+    events:
+      - httpApi:
+          path: /linkplan/{muscle_plan}
+          method: post
+
+  setUserMusclePlanAndSubMuscle:
+    handler: src/userMusclePlanPlusSubMuscle.handler
+    events:
+      - httpApi:
+          path: /linkUserPlanSubmuscle
+          method: post
+
+  logUserExc:
+    handler: src/logExcercise.handler
+    events:
+      - httpApi:
+          path: /logExcercise
+          method: put
 
 resources:
   Resources:
@@ -136,6 +168,7 @@ resources:
         KeySchema:
           - AttributeName: userid
             KeyType: HASH
+
     MuscleBuildPlansV2:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -198,24 +231,40 @@ resources:
           - AttributeName: muscle_subplan_id
             KeyType: HASH
 
-    MusclePlanUser:
+    MusclePlanUser2:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: MusclePlanUser
+        TableName: MusclePlanUser2
         BillingMode: PROVISIONED
         ProvisionedThroughput:
           ReadCapacityUnits: 12
           WriteCapacityUnits: 12
         AttributeDefinitions:
-          - AttributeName: muscle_plan_user
-            AttributeType: S
-          - AttributeName: muscle_plan_id
+          - AttributeName: muscle_plan_user_id
             AttributeType: S
 
         KeySchema:
-          - AttributeName: muscle_plan_user
+          - AttributeName: muscle_plan_user_id
             KeyType: HASH
-          - AttributeName: muscle_plan_id
+
+    MusclePlanUserSubMuscle2:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: MusclePlanUserSubMuscle2
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: muscle_plan_user_id
+            AttributeType: S
+          - AttributeName: muscle_subgroup_id
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: muscle_plan_user_id
+            KeyType: HASH
+          - AttributeName: muscle_subgroup_id
             KeyType: RANGE
 
     Excercises:

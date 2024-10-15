@@ -42,8 +42,15 @@ functions:
     handler: src/userLogin.handler
     events:
       - httpApi:
-          path: /userLogin
+          path: /userLoginOld
           method: get
+
+  loginv2:
+    handler: src/userLoginV2.handler
+    events:
+      - httpApi:
+          path: /userLogin
+          method: post
 
   fetchToDos:
     handler: src/fetchToDos.handler

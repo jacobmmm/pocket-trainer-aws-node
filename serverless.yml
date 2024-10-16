@@ -52,6 +52,13 @@ functions:
           path: /userLogin
           method: post
 
+  excReps:
+    handler: src/excReps.handler
+    events:
+      - httpApi:
+          path: /logExcercise
+          method: post
+
   fetchToDos:
     handler: src/fetchToDos.handler
     events:
@@ -330,10 +337,30 @@ resources:
           - AttributeName: excercise_id
             KeyType: RANGE
 
-    UserExcerciseLogs:
+    # UserExcerciseLogs:
+    #   Type: AWS::DynamoDB::Table
+    #   Properties:
+    #     TableName: UserExcerciseLogs
+    #     BillingMode: PROVISIONED
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 12
+    #       WriteCapacityUnits: 12
+    #     AttributeDefinitions:
+    #       - AttributeName: user_excercise_id
+    #         AttributeType: S
+    #       - AttributeName: weight_reps
+    #         AttributeType: S
+
+    #     KeySchema:
+    #       - AttributeName: user_excercise_id
+    #         KeyType: HASH
+    #       - AttributeName: weight_reps
+    #         KeyType: RANGE
+
+    UserExcerciseLogsV2:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: UserExcerciseLogs
+        TableName: UserExcerciseLogsV2
         BillingMode: PROVISIONED
         ProvisionedThroughput:
           ReadCapacityUnits: 12
@@ -341,14 +368,10 @@ resources:
         AttributeDefinitions:
           - AttributeName: user_excercise_id
             AttributeType: S
-          - AttributeName: weight_reps
-            AttributeType: S
 
         KeySchema:
           - AttributeName: user_excercise_id
             KeyType: HASH
-          - AttributeName: weight_reps
-            KeyType: RANGE
 
     UserExcercise:
       Type: AWS::DynamoDB::Table

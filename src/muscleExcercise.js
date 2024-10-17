@@ -27,6 +27,7 @@ const displayMuscleExcercise = async (event) => {
     let planUserId;
     let muscleId;
     let tables;
+    let tableRows = [];
     let muscleExc = [];
 
      try{

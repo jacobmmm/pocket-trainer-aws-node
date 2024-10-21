@@ -80,6 +80,13 @@ functions:
           path: /workoutPlans
           method: get
 
+  getPlanDetails:
+    handler: src/fetchPlanDetails.handler
+    events:
+      - httpApi:
+          path: /planDetails
+          method: get
+
   getMuscleExcercise2:
     handler: src/muscleExcercise.handler
     events:

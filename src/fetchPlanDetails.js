@@ -17,9 +17,19 @@ const fetchPlanDetails = async (event) => {
 
     let tables = await fetchTable(event,dynamodb,"PlanMuscle");
 
-    const planMuscle = tables.filter(pm => pm.muscle_plan_name === musclePlan);
+    const planDetails = tables.filter(pm => pm.muscle_plan_name === musclePlan);
     
-    console.log("Plan Muscle Details: ",planMuscle);
+    console.log("Plan Muscle Details: ",planDetails);
+
+    const planMuscles = planDetails.map(pm => pm.muscle_group_name);
+
+    console.log("Muscles extracted: ",planMuscles)
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({"Muscles":planMuscles})
+      
+    };
     
 
 

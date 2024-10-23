@@ -268,10 +268,10 @@ resources:
           - AttributeName: muscle_plan_user_id
             KeyType: HASH
 
-    MusclePlanUserSubMuscle2:
+    MusclePlanUserSubMuscle3:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: MusclePlanUserSubMuscle2
+        TableName: MusclePlanUserSubMuscle3
         BillingMode: PROVISIONED
         ProvisionedThroughput:
           ReadCapacityUnits: 12
@@ -279,14 +279,10 @@ resources:
         AttributeDefinitions:
           - AttributeName: muscle_plan_user_id
             AttributeType: S
-          - AttributeName: muscle_subgroup_id
-            AttributeType: S
 
         KeySchema:
           - AttributeName: muscle_plan_user_id
             KeyType: HASH
-          - AttributeName: muscle_subgroup_id
-            KeyType: RANGE
 
     Excercises:
       Type: AWS::DynamoDB::Table

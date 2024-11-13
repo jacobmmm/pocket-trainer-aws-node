@@ -14,9 +14,11 @@ const getMuscles = async (event) => {
     }catch (error) {
         console.log(error)
     }
+
+    console.log("Muscle Object: ",muscles)
   
-  const muscleNames = results.Items.map(item => item[attributeName]);
-  console.log(muscleNames)
+    const muscleNames = results.Items.map(item => item[attributeName]);
+    console.log(muscleNames)
 
   const outputs = {muscles:muscleNames}
 

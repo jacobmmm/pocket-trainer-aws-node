@@ -91,23 +91,28 @@ const linkUserPlanSubMuscle = async (event) => {
         console.log('MusclePlanUser not found.');
     }
 
+    let subMuscResults;
+    let subMusclesInfo;
+
     console.log("Submuscles: ", submuscles)
+
+    try{
+        subMuscResults = await dynamodb.scan({TableName:"MuscleSubGroup"}).promise()
+        subMusclesInfo = subMuscResults.Items
+        console.log(subMusclesInfo)
+        }catch (error) {
+            console.log(error)
+        }
 
 
 
     for (var i = 0; i < submuscles.length; i++) {
         
-        try{
-            results = await dynamodb.scan({TableName:"MuscleSubGroup"}).promise()
-            subMuscles = results.Items
-            console.log(subMuscles)
-            }catch (error) {
-                console.log(error)
-            }
+        
 
             //console.log("SubMuscle at position ",(i+1)," :", submuscles[i])
         
-            const subMuscDetails = subMuscles.find(subMusc => subMusc.muscle_subgroup_name === submuscles[i]);
+            const subMuscDetails = subMusclesInfo.find(subMusc => subMusc.muscle_subgroup_name === submuscles[i]);
         
             console.log(subMuscDetails)
         

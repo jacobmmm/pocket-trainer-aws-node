@@ -12,14 +12,14 @@ const linkUserPlanSubMuscle = async (event) => {
         }
     );
 
-    const { muscle_plan_name, submuscles } = JSON.parse(event.body)
+    const { username,muscle_plan_name, submuscles } = JSON.parse(event.body)
 
 
     //Extracting user ID
-    const decodUser = await auth(event);
-    console.log("returned user ",decodUser)
-    const username = decodUser.userName;
-    console.log("Extracted Username: ",username);
+    // const decodUser = await auth(event);
+    // console.log("returned user ",decodUser)
+    // const username = decodUser.userName;
+    // console.log("Extracted Username: ",username);
   
   
     try{
@@ -123,7 +123,7 @@ const linkUserPlanSubMuscle = async (event) => {
             const musclePlanUserSubMusc = { muscle_plan_user_id:musclePlanUserId, muscle_subgroup_id:subMuscleId}
 
             await dynamodb.put({
-                TableName: "MusclePlanUserSubMuscle2",
+                TableName: "MusclePlanUserSubMuscle3",
                 Item: musclePlanUserSubMusc
               }).promise();
 

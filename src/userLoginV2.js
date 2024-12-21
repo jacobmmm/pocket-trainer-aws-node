@@ -14,26 +14,6 @@ const login = async (event) => {
 
     // Query DynamoDB to find the user with the given email
 
-<<<<<<< HEAD
-    // Query DynamoDB to find the user with the given username
-    // const params = {
-    //   TableName,
-    //   KeyConditionExpression: 'userid = :userid',
-    //   ExpressionAttributeValues: {
-    //     ':userid': username,
-    //   },
-    // };
-
-    const userResults = await dynamodb.scan({TableName:"UserDetails"}).promise();
-    const users = userResults.Items
-    console.log("User Details Queried")
-    //console.log("Result:",result)
-
-    const userDetails = users.find(user => user.email === username);
-
-    // Check if a user with the given username was found
-    if (!userDetails) {
-=======
     const params = {
       TableName:TableName,
       FilterExpression: "email=:email",
@@ -56,7 +36,6 @@ const login = async (event) => {
 
     // Check if a user with the given email was found
     if (result.Items.length === 0) {
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
 
       console.log("No user queried")  
       return {
@@ -66,9 +45,9 @@ const login = async (event) => {
     }
 
     // Verify the password using bcrypt
-    //const user = userDetails.email;
-    console.log("User:",userDetails)
-    const passwordMatch = await bcrypt.compare(password, userDetails.password);
+    const user = result.Items[0];
+    console.log("User:",user)
+    const passwordMatch = await bcrypt.compare(password, user.password);
     
     console.log("Password comparison done")
 

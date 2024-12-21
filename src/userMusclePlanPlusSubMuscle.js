@@ -39,7 +39,11 @@ const linkUserPlanSubMuscle = async (event) => {
   
       if (userDetails) {
       userId = userDetails.userid;
+<<<<<<< HEAD
       console.log('User ID for :', userId);
+=======
+      console.log('User ID for ',decodUser  ,':', userId);
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
       } else {
       console.log('User not found.');
       }
@@ -48,9 +52,13 @@ const linkUserPlanSubMuscle = async (event) => {
 
     let musclePlans;
     let musclePlanUsers;
+<<<<<<< HEAD
     let musclePlanUserId
     let subMuscles;
     let subMuscleValues;
+=======
+    let subMuscles;
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
 
     try{
         results = await dynamodb.scan({TableName:"MuscleBuildPlansV2"}).promise()
@@ -85,7 +93,11 @@ const linkUserPlanSubMuscle = async (event) => {
     
     // console.log(musclePlanUserDetails)
 
+<<<<<<< HEAD
     // let musclePlanUserId;
+=======
+    let musclePlanUserId;
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
   
     // if (musclePlanUserDetails) {
     //     musclePlanUserId = musclePlanUserDetails.muscle_plan_user_id;
@@ -94,6 +106,7 @@ const linkUserPlanSubMuscle = async (event) => {
     //     console.log('MusclePlanUser not found.');
     // }
 
+<<<<<<< HEAD
     
     subMuscleValues = Object.values(submuscles)
     subMuscleValues = subMuscleValues.flat();
@@ -115,6 +128,34 @@ const linkUserPlanSubMuscle = async (event) => {
             console.log("SubMuscle at position ",(i+1)," :", subMuscleValues[i])
         
             const subMuscDetails = subMuscles.find(subMusc => subMusc.muscle_subgroup_name === subMuscleValues[i]);
+=======
+    let subMuscResults;
+    let subMusclesInfo;
+
+    console.log("Submuscles: ", submuscles)
+
+    try{
+        subMuscResults = await dynamodb.scan({TableName:"MuscleSubGroup"}).promise()
+        subMusclesInfo = subMuscResults.Items
+        console.log(subMusclesInfo)
+        }catch (error) {
+            console.log(error)
+        }
+
+    let subMuscList = []
+    subMuscList = Object.values(submuscles)
+    console.log("List of submuscles alone: ",subMuscList)
+
+
+
+    for (var i = 0; i < subMuscList.length; i++) {
+        
+        
+
+            //console.log("SubMuscle at position ",(i+1)," :", submuscles[i])
+        
+            const subMuscDetails = subMusclesInfo.find(subMusc => subMusc.muscle_subgroup_name === subMuscList[i]);
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
         
             console.log(subMuscDetails)
         
@@ -123,6 +164,7 @@ const linkUserPlanSubMuscle = async (event) => {
             if (subMuscDetails) {
                 subMuscleId = subMuscDetails.muscle_subgroup_id;
                 console.log('subMuscle ID for ',subMuscDetails  ,':', subMuscleId);
+<<<<<<< HEAD
                 } else {
                 console.log('subMuscle not found.');
                 }
@@ -133,21 +175,43 @@ const linkUserPlanSubMuscle = async (event) => {
 
             await dynamodb.put({
                 TableName: "MusclePlanUserSubMuscle2",
+=======
+                
+                } else {
+                console.log('subMuscle not found.');
+                }
+            
+            musclePlanUserId = v4();    
+            const musclePlanUserSubMusc = { muscle_plan_user_id:musclePlanUserId, user_id:userId, muscle_plan_id:musclePlanId, muscle_subgroup_id:subMuscleId}
+
+            await dynamodb.put({
+                TableName: "MusclePlanUserSubMuscle3",
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
                 Item: musclePlanUserSubMusc
               }).promise();
 
             console.log(musclePlanUserSubMusc," Inserted Successfully");
 
+<<<<<<< HEAD
             
+=======
+            return {
+            statusCode: 200,
+            body: JSON.stringify(musclePlanUserSubMusc),
+            };
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
             
 
     }
 
+<<<<<<< HEAD
     return {
         statusCode: 200,
         body: JSON.stringify({status:"Created UserPlanSubMuscleEntity"}),
         };
 
+=======
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
     
 
 

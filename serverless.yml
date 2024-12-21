@@ -23,6 +23,10 @@ provider:
         - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUser2
         - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUserSubMuscle2
         - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleSubPlan
+<<<<<<< HEAD
+=======
+        - arn:aws:lambda:us-east-1:730335515139:function:pocket-trainer-aws-node-dev-hello
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
 
 plugins:
   - serverless-plugin-optimize
@@ -41,7 +45,26 @@ functions:
     handler: src/userLogin.handler
     events:
       - httpApi:
+<<<<<<< HEAD
           path: /userLogin
+          method: post
+=======
+          path: /userLoginOld
+          method: get
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
+
+  loginv2:
+    handler: src/userLoginV2.handler
+    events:
+      - httpApi:
+          path: /userLogin
+          method: post
+
+  excReps:
+    handler: src/excReps.handler
+    events:
+      - httpApi:
+          path: /logExcercise
           method: post
 
   fetchToDos:
@@ -65,6 +88,16 @@ functions:
           path: /workoutPlans
           method: get
 
+<<<<<<< HEAD
+=======
+  getPlanDetails:
+    handler: src/fetchPlanDetails.handler
+    events:
+      - httpApi:
+          path: /planDetails
+          method: get
+
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
   getMuscleExcercise2:
     handler: src/muscleExcercise.handler
     events:
@@ -260,6 +293,7 @@ resources:
           - AttributeName: muscle_plan_user_id
             KeyType: HASH
 
+<<<<<<< HEAD
     # MusclePlanUserSubMuscle2:
     #   Type: AWS::DynamoDB::Table
     #   Properties:
@@ -280,6 +314,8 @@ resources:
     #       - AttributeName: muscle_subgroup_id
     #         KeyType: RANGE
 
+=======
+>>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
     MusclePlanUserSubMuscle3:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -352,10 +388,30 @@ resources:
           - AttributeName: excercise_id
             KeyType: RANGE
 
-    UserExcerciseLogs:
+    # UserExcerciseLogs:
+    #   Type: AWS::DynamoDB::Table
+    #   Properties:
+    #     TableName: UserExcerciseLogs
+    #     BillingMode: PROVISIONED
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 12
+    #       WriteCapacityUnits: 12
+    #     AttributeDefinitions:
+    #       - AttributeName: user_excercise_id
+    #         AttributeType: S
+    #       - AttributeName: weight_reps
+    #         AttributeType: S
+
+    #     KeySchema:
+    #       - AttributeName: user_excercise_id
+    #         KeyType: HASH
+    #       - AttributeName: weight_reps
+    #         KeyType: RANGE
+
+    UserExcerciseLogsV2:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: UserExcerciseLogs
+        TableName: UserExcerciseLogsV2
         BillingMode: PROVISIONED
         ProvisionedThroughput:
           ReadCapacityUnits: 12
@@ -363,14 +419,10 @@ resources:
         AttributeDefinitions:
           - AttributeName: user_excercise_id
             AttributeType: S
-          - AttributeName: weight_reps
-            AttributeType: S
 
         KeySchema:
           - AttributeName: user_excercise_id
             KeyType: HASH
-          - AttributeName: weight_reps
-            KeyType: RANGE
 
     UserExcercise:
       Type: AWS::DynamoDB::Table

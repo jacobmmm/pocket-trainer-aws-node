@@ -14,7 +14,6 @@ const login = async (event) => {
 
     // Query DynamoDB to find the user with the given email
 
-<<<<<<< HEAD
     // Query DynamoDB to find the user with the given username
     // const params = {
     //   TableName,
@@ -33,30 +32,6 @@ const login = async (event) => {
 
     // Check if a user with the given username was found
     if (!userDetails) {
-=======
-    const params = {
-      TableName:TableName,
-      FilterExpression: "email=:email",
-      ExpressionAttributeValues: {  ':email': email,
-      },
-    };
-
-
-    // const params = {
-    //   TableName,
-    //   KeyConditionExpression: 'userid = :userid',
-    //   ExpressionAttributeValues: {
-    //     ':userid': email,
-    //   },
-    // };
-    const result = await dynamodb.scan(params).promise();
-    // const result = await dynamodb.query(params).promise();
-    console.log("User Queried")
-    console.log("Result:",result)
-
-    // Check if a user with the given email was found
-    if (result.Items.length === 0) {
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
 
       console.log("No user queried")  
       return {

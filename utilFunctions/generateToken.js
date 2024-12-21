@@ -3,7 +3,8 @@ const config = require('config')
 
 
 const getAuthToken = function(object){
-    const token = jwt.sign({userId: object.userId,userName:object.userName}, config.get('jwtPrivateKey'))
+    console.log("jwtKey: ", config.get('jwtPrivateKey'))
+    const token = jwt.sign({userId: object.userId,userName:object.email}, config.get('jwtPrivateKey'))
     return token;
 }
 

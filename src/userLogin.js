@@ -13,20 +13,23 @@ const login = async (event) => {
     console.log("username:",username,"password:",password);
 
     // Query DynamoDB to find the user with the given username
-    const params = {
-      TableName,
-      KeyConditionExpression: 'userid = :userid',
-      ExpressionAttributeValues: {
-        ':userid': username,
-      },
-    };
+    // const params = {
+    //   TableName,
+    //   KeyConditionExpression: 'userid = :userid',
+    //   ExpressionAttributeValues: {
+    //     ':userid': username,
+    //   },
+    // };
 
-    const result = await dynamodb.query(params).promise();
-    console.log("User Queried")
-    console.log("Result:",result)
+    const userResults = await dynamodb.scan({TableName:"UserDetails"}).promise();
+    const users = userResults.Items
+    console.log("User Details Queried")
+    //console.log("Result:",result)
+
+    const userDetails = users.find(user => user.email === username);
 
     // Check if a user with the given username was found
-    if (result.Items.length === 0) {
+    if (!userDetails) {
 
       console.log("No user queried")  
       return {
@@ -36,9 +39,9 @@ const login = async (event) => {
     }
 
     // Verify the password using bcrypt
-    const user = result.Items[0];
-    console.log("User:",user)
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    //const user = userDetails.email;
+    console.log("User:",userDetails)
+    const passwordMatch = await bcrypt.compare(password, userDetails.password);
     
     console.log("Password comparison done")
 

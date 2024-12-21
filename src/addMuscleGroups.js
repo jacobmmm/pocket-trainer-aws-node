@@ -10,44 +10,43 @@ const bcrypt = require('bcryptjs');
 const addMuscles = async (event) => {
 
   try{
+  
+  const muscles = ['Legs','Shoulders','Back','Biceps','Triceps','Chest'];
 
   const dynamodb = new AWS.DynamoDB.DocumentClient()
-  const { muscle_group_name } = JSON.parse(event.body)
-  const muscle_group_id = v4();
+
+  const tableName = 'MuscleGroup';
+
+  const insertItem = async (muscle) => {
+    const muscle_group_id = v4();
+    const muscleItem ={muscle_group_id:muscle_group_id,muscle_group_name:muscle}
+    const params = {
+      TableName: tableName,
+      Item: muscleItem,
+    };
   
-  console.log("Muscle Group ID:",muscle_group_id)
-
-  const muscleGroup = {muscle_group_id, muscle_group_name}  
-
-  /*const validationErrors = validateInput(user);
-
-  if (validationErrors.length > 0) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ errors: validationErrors }),
-      
-    };
-  }*/
-
-  if (!event.body) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: "Request body is missing." }),
-    };
+    try {
+      await dynamodb.put(params).promise();
+      console.log(`Successfully inserted plan:`, muscleItem);
+    } catch (error) {
+      console.error(`Error inserting plan:`, muscleItem, error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: error }),
+  
   }
+    }
+  };
 
-  /*const hashedPassword = await hashPassword(password);
-  user.password = hashedPassword;*/
+  for (const muscle of muscles) {
+    await insertItem(muscle);
+  }  
 
 
-  await dynamodb.put({
-    TableName: "MuscleGroup",
-    Item: muscleGroup
-  }).promise();
 
   return {
     statusCode: 200,
-    body: JSON.stringify(muscleGroup),
+    body: JSON.stringify({Message:"Success"}),
     
   };
 }catch(error){

@@ -13,6 +13,7 @@ const validateInput = (input) => {
     errors.push("userid is required and must be a string.");
   } */
   console.log(typeof input.lastName)
+  console.log("date match: ",input.dateOfBirth.match(dateFormatRegex))
   if (!input.firstName || typeof input.firstName !== "string") {
     errors.push("firstName is required and must be a string.");
   }
@@ -21,7 +22,7 @@ const validateInput = (input) => {
     errors.push("lastName is required and must be a string.");
   }
 
-  if (!input.dateOfBirth || input.dateOfBirth.match(dateFormatRegex)) {
+  if (!input.dateOfBirth || !input.dateOfBirth.match(dateFormatRegex)) {
     errors.push("dateOfBirth is required and must be in the 'YYYY-MM-DD' format.");
   }
 
@@ -47,6 +48,8 @@ const hashPassword = async (plainTextPassword) => {
 };
 
 const hello = async (event) => {
+
+  console.log("Inside hello handler")
 
   try{
 

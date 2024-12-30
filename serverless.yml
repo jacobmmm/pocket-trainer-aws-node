@@ -23,10 +23,7 @@ provider:
         - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUser2
         - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUserSubMuscle2
         - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleSubPlan
-<<<<<<< HEAD
-=======
         - arn:aws:lambda:us-east-1:730335515139:function:pocket-trainer-aws-node-dev-hello
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
 
 plugins:
   - serverless-plugin-optimize
@@ -45,13 +42,8 @@ functions:
     handler: src/userLogin.handler
     events:
       - httpApi:
-<<<<<<< HEAD
           path: /userLogin
           method: post
-=======
-          path: /userLoginOld
-          method: get
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
 
   loginv2:
     handler: src/userLoginV2.handler
@@ -88,8 +80,6 @@ functions:
           path: /workoutPlans
           method: get
 
-<<<<<<< HEAD
-=======
   getPlanDetails:
     handler: src/fetchPlanDetails.handler
     events:
@@ -97,7 +87,6 @@ functions:
           path: /planDetails
           method: get
 
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
   getMuscleExcercise2:
     handler: src/muscleExcercise.handler
     events:
@@ -293,7 +282,6 @@ resources:
           - AttributeName: muscle_plan_user_id
             KeyType: HASH
 
-<<<<<<< HEAD
     # MusclePlanUserSubMuscle2:
     #   Type: AWS::DynamoDB::Table
     #   Properties:
@@ -314,8 +302,6 @@ resources:
     #       - AttributeName: muscle_subgroup_id
     #         KeyType: RANGE
 
-=======
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
     MusclePlanUserSubMuscle3:
       Type: AWS::DynamoDB::Table
       Properties:

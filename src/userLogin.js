@@ -9,8 +9,8 @@ const TableName = 'UserDetails';
 const login = async (event) => {
   try {
     console.log("Loggin in")
-    const { email, password } = JSON.parse(event.body);
-    console.log("email:",email,"password:",password);
+    const { username, password } = JSON.parse(event.body);
+    console.log("username:",username,"password:",password);
 
     // Query DynamoDB to find the user with the given email
 
@@ -25,7 +25,7 @@ const login = async (event) => {
 
     const userResults = await dynamodb.scan({TableName:"UserDetails"}).promise();
     const users = userResults.Items
-    console.log("User Details Queried")
+    console.log("User Details Queried:",users);
     //console.log("Result:",result)
 
     const userDetails = users.find(user => user.email === username);

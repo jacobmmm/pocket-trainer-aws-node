@@ -13,16 +13,16 @@ provider:
       Action:
         - dynamodb:*
       Resource:
-        - arn:aws:dynamodb:us-east-1:282087100037:table/UserDetails
-        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleBuildPlansV2
+        - arn:aws:dynamodb:us-east-1:730335515139:table/UserDetails
+        - arn:aws:dynamodb:us-east-1:730335515139:table/MuscleBuildPlansV2
         - arn:aws:lambda:us-east-1:282087100037:function:pocket-trainer-aws-node-dev-getPlans
         - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleGroup/index/muscle_group_attributes
-        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleGroup
-        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleSubGroup
-        - arn:aws:dynamodb:us-east-1:282087100037:table/Excercises
-        - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUser2
-        - arn:aws:dynamodb:us-east-1:282087100037:table/MusclePlanUserSubMuscle2
-        - arn:aws:dynamodb:us-east-1:282087100037:table/MuscleSubPlan
+        - arn:aws:dynamodb:us-east-1:730335515139:table/MuscleGroup
+        - arn:aws:dynamodb:us-east-1:730335515139:table/MuscleSubGroup
+        - arn:aws:dynamodb:us-east-1:730335515139:table/Excercises
+        - arn:aws:dynamodb:us-east-1:730335515139:table/MusclePlanUser2
+        - arn:aws:dynamodb:us-east-1:730335515139:table/MusclePlanUserSubMuscle3
+        - arn:aws:dynamodb:us-east-1:730335515139:table/MuscleSubPlan
         - arn:aws:lambda:us-east-1:730335515139:function:pocket-trainer-aws-node-dev-hello
 
 plugins:
@@ -40,13 +40,6 @@ functions:
 
   login:
     handler: src/userLogin.handler
-    events:
-      - httpApi:
-          path: /userLogin
-          method: post
-
-  loginv2:
-    handler: src/userLoginV2.handler
     events:
       - httpApi:
           path: /userLogin
@@ -161,7 +154,7 @@ functions:
     handler: src/fetchUserPlans.handler
     events:
       - httpApi:
-          path: /userplans
+          path: /userplans/{userEmail}
           method: get
 
   setUserMusclePlan:

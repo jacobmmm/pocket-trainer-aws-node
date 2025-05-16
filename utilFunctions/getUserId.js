@@ -1,11 +1,11 @@
-const { auth } = require('./auth')
+//const { auth } = require('./auth')
 
-const fetchUserId = async (event,dynamodb) => {
+const fetchUserId = async (event,dynamodb,userEmail) => {
 
-    const decodUser = await auth(event);
-    console.log("returned user ",decodUser)
-    const username = decodUser.userName;
-    console.log("Extracted Username: ",username);
+    // const decodUser = await auth(event);
+    // console.log("returned user ",decodUser)
+    // const username = decodUser.userName;
+    // console.log("Extracted Username: ",username);
     let results;
   
   
@@ -17,7 +17,7 @@ const fetchUserId = async (event,dynamodb) => {
           console.log(error)
       }
   
-      const userDetails = users.find(ud => ud.email === username);
+      const userDetails = users.find(ud => ud.email === userEmail);
   
       console.log(userDetails)
   

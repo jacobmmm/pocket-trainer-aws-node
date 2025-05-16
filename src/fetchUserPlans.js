@@ -14,7 +14,13 @@ const fetchUserPlan = async (event) => {
       }
   );
 
-  const userId = await fetchUserId(event,dynamodb);
+  // Access specific query parameters
+  const { userEmail } =  event.pathParameters; // Replace 'paramName' with your actual parameter name
+  
+  console.log("UserEmail in fetch userPlans:", userEmail);
+  
+
+  const userId = await fetchUserId(event,dynamodb,userEmail);
   console.log("UserId returned value: ",userId)
   let musclePlanUsers;
   let musclePlans;
@@ -22,7 +28,7 @@ const fetchUserPlan = async (event) => {
 
 
   try{
-    results = await dynamodb.scan({TableName:"MusclePlanUser2"}).promise()
+    results = await dynamodb.scan({TableName:"MusclePlanUserSubMuscle3"}).promise()
     musclePlanUsers = results.Items
     console.log(musclePlanUsers)
     }catch (error) {

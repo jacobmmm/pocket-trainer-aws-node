@@ -39,11 +39,8 @@ const linkUserPlanSubMuscle = async (event) => {
   
       if (userDetails) {
       userId = userDetails.userid;
-<<<<<<< HEAD
       console.log('User ID for :', userId);
-=======
-      console.log('User ID for ',decodUser  ,':', userId);
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
+      //console.log('User ID for ',decodUser  ,':', userId);
       } else {
       console.log('User not found.');
       }
@@ -52,13 +49,10 @@ const linkUserPlanSubMuscle = async (event) => {
 
     let musclePlans;
     let musclePlanUsers;
-<<<<<<< HEAD
-    let musclePlanUserId
-    let subMuscles;
+    let musclePlanUserId;
+    let subMusclesInfo;
+    //let subMuscles;
     let subMuscleValues;
-=======
-    let subMuscles;
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
 
     try{
         results = await dynamodb.scan({TableName:"MuscleBuildPlansV2"}).promise()
@@ -93,11 +87,7 @@ const linkUserPlanSubMuscle = async (event) => {
     
     // console.log(musclePlanUserDetails)
 
-<<<<<<< HEAD
-    // let musclePlanUserId;
-=======
-    let musclePlanUserId;
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
+   // let musclePlanUserId;
   
     // if (musclePlanUserDetails) {
     //     musclePlanUserId = musclePlanUserDetails.muscle_plan_user_id;
@@ -106,7 +96,6 @@ const linkUserPlanSubMuscle = async (event) => {
     //     console.log('MusclePlanUser not found.');
     // }
 
-<<<<<<< HEAD
     
     subMuscleValues = Object.values(submuscles)
     subMuscleValues = subMuscleValues.flat();
@@ -115,109 +104,86 @@ const linkUserPlanSubMuscle = async (event) => {
 
 
 
-    for (var i = 0; i < subMuscleValues.length; i++) {
+    // for (var i = 0; i < subMuscleValues.length; i++) {
         
-        try{
-            results = await dynamodb.scan({TableName:"MuscleSubGroup"}).promise()
-            subMuscles = results.Items
-            console.log(subMuscles)
-            }catch (error) {
-                console.log(error)
-            }
+    //     try{
+    //         results = await dynamodb.scan({TableName:"MuscleSubGroup"}).promise()
+    //         subMuscles = results.Items
+    //         console.log(subMuscles)
+    //         }catch (error) {
+    //             console.log(error)
+    //         }
 
-            console.log("SubMuscle at position ",(i+1)," :", subMuscleValues[i])
+    //         console.log("SubMuscle at position ",(i+1)," :", subMuscleValues[i])
         
-            const subMuscDetails = subMuscles.find(subMusc => subMusc.muscle_subgroup_name === subMuscleValues[i]);
-=======
-    let subMuscResults;
-    let subMusclesInfo;
+    //         const subMuscDetails = subMuscles.find(subMusc => subMusc.muscle_subgroup_name === subMuscleValues[i]);
+    // let subMuscResults;
+    // let subMusclesInfo;
 
-    console.log("Submuscles: ", submuscles)
+    // console.log("Submuscles: ", submuscles)
 
     try{
         subMuscResults = await dynamodb.scan({TableName:"MuscleSubGroup"}).promise()
         subMusclesInfo = subMuscResults.Items
-        console.log(subMusclesInfo)
+        console.log("subMusclesInfo:",subMusclesInfo)
         }catch (error) {
             console.log(error)
         }
 
     let subMuscList = []
     subMuscList = Object.values(submuscles)
+    subMuscList = subMuscList.flat();
+
     console.log("List of submuscles alone: ",subMuscList)
 
 
 
-    for (var i = 0; i < subMuscList.length; i++) {
-        
-        
+    for (let i = 0; i < subMuscList.length; i++) {
 
-            //console.log("SubMuscle at position ",(i+1)," :", submuscles[i])
+        
+            console.log("SubMuscle at position ",(i+1)," :", subMuscList[i])
         
             const subMuscDetails = subMusclesInfo.find(subMusc => subMusc.muscle_subgroup_name === subMuscList[i]);
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
         
-            console.log(subMuscDetails)
+            console.log("Extracted subMuscle Details",subMuscDetails)
         
             let subMuscleId;
         
             if (subMuscDetails) {
                 subMuscleId = subMuscDetails.muscle_subgroup_id;
                 console.log('subMuscle ID for ',subMuscDetails  ,':', subMuscleId);
-<<<<<<< HEAD
                 } else {
                 console.log('subMuscle not found.');
                 }
 
             musclePlanUserId = v4();
 
-            const musclePlanUserSubMusc = { muscle_plan_user_id:musclePlanUserId, userId:userId, muscle_subgroup_id:subMuscleId}
-
-            await dynamodb.put({
-                TableName: "MusclePlanUserSubMuscle2",
-=======
-                
-                } else {
-                console.log('subMuscle not found.');
-                }
-            
-            musclePlanUserId = v4();    
-            const musclePlanUserSubMusc = { muscle_plan_user_id:musclePlanUserId, user_id:userId, muscle_plan_id:musclePlanId, muscle_subgroup_id:subMuscleId}
+            const musclePlanUserSubMusc = { muscle_plan_user_id:musclePlanUserId, userId:userId, musclePlanId:musclePlanId, muscle_subgroup_id:subMuscleId}
 
             await dynamodb.put({
                 TableName: "MusclePlanUserSubMuscle3",
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
                 Item: musclePlanUserSubMusc
               }).promise();
 
             console.log(musclePlanUserSubMusc," Inserted Successfully");
 
-<<<<<<< HEAD
-            
-=======
-            return {
-            statusCode: 200,
-            body: JSON.stringify(musclePlanUserSubMusc),
-            };
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
+           
             
 
     }
 
-<<<<<<< HEAD
     return {
         statusCode: 200,
-        body: JSON.stringify({status:"Created UserPlanSubMuscleEntity"}),
+        message: 'Submuscle linked successfully',
         };
 
-=======
->>>>>>> ccbbc388f2d2598691883c9385acd4938ad6253a
     
 
 
 
 
 }
+
 
 module.exports = {
     handler: linkUserPlanSubMuscle

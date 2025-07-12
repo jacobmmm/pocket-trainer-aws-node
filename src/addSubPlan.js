@@ -12,7 +12,7 @@ const addSubPlan = async (event) => {
     const tableName = 'MuscleSubPlan'; // Replace with your DynamoDB table name
 
     // Sample array of objects to insert
-    const subplans = ['Push','Pull'];
+    const subplans = ['Push','Pull','Full Body'];
 
     const dynamodb = new AWS.DynamoDB.DocumentClient()
 

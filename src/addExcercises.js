@@ -30,14 +30,39 @@ const addExcercises = async (event) => {
     };
   }*/
 
-    const excercises = [{'Muscle':'Legs','Subgroup':'Quads','Push/Pull':'Push','Excercise':'Barbell Squats'},{'Muscle':'Legs','Subgroup':'Quads','Push/Pull':'Push','Excercise':'Leg Press'},
-    {'Muscle':'Legs','Subgroup':'Hamstrings','Push/Pull':'Pull','Excercise':'Dumbbell Romanian Deadlift'},{'Muscle':'Legs','Subgroup':'Hamstrings','Push/Pull':'Pull','Excercise':'Hamstring Curls'},{'Muscle':'Legs','Subgroup':'Calves','Push/Pull':'Push','Excercise':'Machine Calf Raises'},{'Muscle':'Legs','Subgroup':'Calves','Push/Pull':'Push','Excercise':'Seated Calve Raises'},
-     {'Muscle':'Legs','Subgroup':'Calves','Push/Pull':'Push','Excercise':'Seated Calf Raises'},{'Muscle':'Chest','Subgroup':'Middle','Push/Pull':'Push','Excercise':'Chest Press'},{'Muscle':'Chest','Subgroup':'Middle','Push/Pull':'Push','Excercise':'Dumbbell Chest Press'},{'Muscle':'Chest','Subgroup':'Upper','Push/Pull':'Push','Excercise':'Incline Chest Press'},
-    {'Muscle':'Chest','Subgroup':'Upper','Push/Pull':'Push','Excercise':'Incline Dumbbell Chest Press'},{'Muscle':'Chest','Subgroup':'Lower','Push/Pull':'Push','Excercise':'Decline Press'},{'Muscle':'Shoulders','Subgroup':'Anterior','Push/Pull':'Push','Excercise':'Military Press'},{'Muscle':'Shoulders','Subgroup':'Anterior','Push/Pull':'Push','Excercise':'Dumbbell Military Press'},
-    {'Muscle':'Shoulders','Subgroup':'Middle','Push/Pull':'Push','Excercise':'Lateral Raise'},{'Muscle':'Shoulders','Subgroup':'Middle','Push/Pull':'Push','Excercise':'Cable Lateral Raise'},{'Muscle':'Shoulders','Subgroup':'Rear','Push/Pull':'Push','Excercise':'Seated Rear Delt Fly'},{'Muscle':'Shoulders','Subgroup':'Rear','Push/Pull':'Push','Excercise':'Face Pulls'},
-    {'Muscle':'Triceps','Subgroup':'Lateral Head','Push/Pull':'Push','Excercise':'Cable Push Downs'},{'Muscle':'Triceps','Subgroup':'Lateral Head','Push/Pull':'Push','Excercise':'Tricep Dips'},{'Muscle':'Triceps','Subgroup':'Medial Head','Push/Pull':'Push','Excercise':'Cable Overhead Tricep Extension'},{'Muscle':'Triceps','Subgroup':'Long Head','Push/Pull':'Push','Excercise':'Rope Tricep Extension'},
-    {'Muscle':'Back','Subgroup':'Latismus Dorsi','Push/Pull':'Pull','Excercise':'Cable Rows'},{'Muscle':'Back','Subgroup':'Latismus Dorsi','Push/Pull':'Pull','Excercise':'Dumbbell Rows'},{'Muscle':'Back','Subgroup':'Trapezius','Push/Pull':'Pull','Excercise':'Lateral Pulldowns'},{'Muscle':'Back','Subgroup':'Latismus Dorsi','Push/Pull':'Pull','Excercise':'Cable Pull Downs'},{'Muscle':'Biceps','Subgroup':'Inner','Push/Pull':'Pull','Excercise':'Bicep Curl'},
-    {'Muscle':'Biceps','Subgroup':'Inner','Push/Pull':'Pull','Excercise':'Machine Preacher Curl'},{'Muscle':'Biceps','Subgroup':'Outer','Push/Pull':'Pull','Excercise':'Incline Bicep Curl'},{'Muscle':'Biceps','Subgroup':'Brachialis','Push/Pull':'Pull','Excercise':'Hammer Curls'}]
+    const excercises = [
+  {"Muscle":"Legs","Subgroup":"Quads","SubPlan":"Push","Excercise":"Barbell Squats"},
+  {"Muscle":"Legs","Subgroup":"Quads","SubPlan":"Push","Excercise":"Leg Press"},
+  {"Muscle":"Legs","Subgroup":"Hamstrings","SubPlan":"Pull","Excercise":"Dumbbell Romanian Deadlift"},
+  {"Muscle":"Legs","Subgroup":"Hamstrings","SubPlan":"Pull","Excercise":"Hamstring Curls"},
+  {"Muscle":"Legs","Subgroup":"Calves","SubPlan":"Push","Excercise":"Machine Calf Raises"},
+  {"Muscle":"Legs","Subgroup":"Calves","SubPlan":"Push","Excercise":"Seated Calve Raises"},
+  {"Muscle":"Legs","Subgroup":"Calves","SubPlan":"Push","Excercise":"Seated Calf Raises"},
+  {"Muscle":"Chest","Subgroup":"Middle","SubPlan":"Push","Excercise":"Chest Press"},
+  {"Muscle":"Chest","Subgroup":"Middle","SubPlan":"Push","Excercise":"Dumbbell Chest Press"},
+  {"Muscle":"Chest","Subgroup":"Upper","SubPlan":"Push","Excercise":"Incline Chest Press"},
+  {"Muscle":"Chest","Subgroup":"Upper","SubPlan":"Push","Excercise":"Incline Dumbbell Chest Press"},
+  {"Muscle":"Chest","Subgroup":"Lower","SubPlan":"Push","Excercise":"Decline Press"},
+  {"Muscle":"Shoulders","Subgroup":"Anterior","SubPlan":"Push","Excercise":"Military Press"},
+  {"Muscle":"Shoulders","Subgroup":"Anterior","SubPlan":"Push","Excercise":"Dumbbell Military Press"},
+  {"Muscle":"Shoulders","Subgroup":"Middle","SubPlan":"Push","Excercise":"Lateral Raise"},
+  {"Muscle":"Shoulders","Subgroup":"Middle","SubPlan":"Push","Excercise":"Cable Lateral Raise"},
+  {"Muscle":"Shoulders","Subgroup":"Rear","SubPlan":"Push","Excercise":"Seated Rear Delt Fly"},
+  {"Muscle":"Shoulders","Subgroup":"Rear","SubPlan":"Push","Excercise":"Face Pulls"},
+  {"Muscle":"Triceps","Subgroup":"Lateral Head","SubPlan":"Push","Excercise":"Cable Push Downs"},
+  {"Muscle":"Triceps","Subgroup":"Lateral Head","SubPlan":"Push","Excercise":"Tricep Dips"},
+  {"Muscle":"Triceps","Subgroup":"Medial Head","SubPlan":"Push","Excercise":"Cable Overhead Tricep Extension"},
+  {"Muscle":"Triceps","Subgroup":"Long Head","SubPlan":"Push","Excercise":"Rope Tricep Extension"},
+  {"Muscle":"Back","Subgroup":"Latismus Dorsi","SubPlan":"Pull","Excercise":"Cable Rows"},
+  {"Muscle":"Back","Subgroup":"Latismus Dorsi","SubPlan":"Pull","Excercise":"Dumbbell Rows"},
+  {"Muscle":"Back","Subgroup":"Trapezius","SubPlan":"Pull","Excercise":"Lateral Pulldowns"},
+  {"Muscle":"Back","Subgroup":"Latismus Dorsi","SubPlan":"Pull","Excercise":"Cable Pull Downs"},
+  {"Muscle":"Biceps","Subgroup":"Inner","SubPlan":"Pull","Excercise":"Bicep Curl"},
+  {"Muscle":"Biceps","Subgroup":"Inner","SubPlan":"Pull","Excercise":"Machine Preacher Curl"},
+  {"Muscle":"Biceps","Subgroup":"Outer","SubPlan":"Pull","Excercise":"Incline Bicep Curl"},
+  {"Muscle":"Biceps","Subgroup":"Brachialis","SubPlan":"Pull","Excercise":"Hammer Curls"}
+]
+
 
 
     const insertItem = async (msm) => {

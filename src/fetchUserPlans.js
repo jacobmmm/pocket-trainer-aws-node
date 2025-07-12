@@ -35,25 +35,27 @@ const fetchUserPlan = async (event) => {
         console.log(error)
     }
 
-    const musclePlanUserDetails = musclePlanUsers.filter(mpud => mpud.user_id === userId);
+    const musclePlanUserDetails = musclePlanUsers.filter(mpud => mpud.userId === userId);
   
-    console.log(musclePlanUserDetails)
+    console.log("musclePlanUserDetails:", musclePlanUserDetails)
 
-    const userPlanIds = musclePlanUserDetails.map(obj => obj.muscle_plan_id);
+    const userPlanIds = musclePlanUserDetails.map(obj => obj.musclePlanId);
 
     console.log("Users plan IDs: ",userPlanIds)
 
     let userPlanNames = [];
 
+    try{
+      results = await dynamodb.scan({TableName:"MuscleBuildPlansV2"}).promise()
+      musclePlans = results.Items
+      console.log("Extracted Muscle Plans:",musclePlans)
+      }catch (error) {
+          console.log(error)
+      }
+
     for (var i = 0; i < userPlanIds.length; i++) {
         
-      try{
-          results = await dynamodb.scan({TableName:"MuscleBuildPlansV2"}).promise()
-          musclePlans = results.Items
-          console.log("Extracted Muscle Plans:",musclePlans)
-          }catch (error) {
-              console.log(error)
-          }
+      
 
           console.log("Plan ID at position ",(i+1)," :", userPlanIds[i])
       
@@ -79,9 +81,15 @@ const fetchUserPlan = async (event) => {
 
   }
 
+  const uniquePlan = [...new Set(userPlanNames)];
+  console.log("Unique Plan Names: ",uniquePlan)
+
+// If you want to also remove null/undefined values
+  const cleanUniquePlan = uniquePlan.filter(Boolean);
+
   return {
     statusCode: 200,
-    body: JSON.stringify({"Your Plans":userPlanNames})
+    body: JSON.stringify({plans:cleanUniquePlan})
     
   };
 

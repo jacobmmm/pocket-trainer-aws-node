@@ -13,7 +13,7 @@ const linkUserPlanSubMuscle = async (event) => {
         }
     );
 
-    const { username,muscle_plan_name, submuscles } = JSON.parse(event.body)
+    const { username, muscle_plan_name, submuscles } = JSON.parse(event.body)
 
 
     //Extracting user ID
@@ -53,6 +53,8 @@ const linkUserPlanSubMuscle = async (event) => {
     let subMusclesInfo;
     //let subMuscles;
     let subMuscleValues;
+
+    console.log("Muscle Plan Name: ",muscle_plan_name)
 
     try{
         results = await dynamodb.scan({TableName:"MuscleBuildPlansV2"}).promise()

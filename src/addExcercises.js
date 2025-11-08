@@ -73,8 +73,8 @@ const addExcercises = async (event) => {
       const sub_muscle = msm['Subgroup']
       console.log("Extracted subMuscle: ",sub_muscle)
 
-      const push_pull = msm['Push/Pull']
-      console.log("Extracted pushPull: ",push_pull)
+      const sub_plan = msm['SubPlan']
+      console.log("Extracted pushPull: ",sub_plan)
 
       const excercise_name = msm['Excercise']
       console.log("Extracted excercise: ",excercise_name)
@@ -126,13 +126,13 @@ const addExcercises = async (event) => {
     console.log(error)
   }
 
-  const pushPullDetails = pushPull.find(group => group.muscle_subplan_name.toLowerCase() === push_pull.toLowerCase());
+  const pushPullDetails = pushPull.find(group => group.muscle_subplan_name.toLowerCase() === sub_plan.toLowerCase());
 
   let subPlanId;
 
 if (pushPullDetails) {
   subPlanId = pushPullDetails.muscle_subplan_id;
-  console.log('subplan ID for ',push_pull  ,':', subPlanId);
+  console.log('subplan ID for ',sub_plan  ,':', subPlanId);
 } else {
   console.log('submuscle not found.');
 }

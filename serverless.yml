@@ -170,6 +170,13 @@ functions:
           path: /subMuscleExcercise/{submuscle}
           method: get
 
+  subplanSubgroup:
+    handler: src/subplanSubgroup.handler
+    events:
+      - httpApi:
+          path: /subplanSubgroup
+          method: post
+
   excExcercise:
     handler: src/excExcercise.handler
     events:

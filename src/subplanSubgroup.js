@@ -14,7 +14,7 @@ const subplanSubgroup = async  (event) => {
             }
         );
 
-    const { muscle_plan_name, username, splitname } = JSON.parse(event.body);
+    const subplanSubgroups = {push: ["Chest", "Shoulders", "Triceps"], pull: ["Back", "Biceps", "Rear Delts"]}
 
 
 }

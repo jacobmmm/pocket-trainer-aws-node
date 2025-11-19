@@ -15,8 +15,8 @@ const addSubMuscles = async (event) => {
 
   const tableName = 'MuscleSubGroup';
 
-  const muscleSubMuscle = [{'Legs':['Quads','Hamstrings','Glutes','Calves']},{'Chest':['Upper','Middle Chest','Lower','Pects']},
-                          {'Shoulders':['Anterior','Traps','Middle Delts','Rear']},{'Back':['Latismus Dorsi','Trapezius','Rhomboids']},{'Biceps':['Inner','Outer','Brachialis']},{'Triceps':['Lateral Head','Long Head','Medial Head']}]
+  const muscleSubMuscle = [{'Legs':['Quads','Hamstrings','Glutes','Calves']},{'Chest':['Upper Chest','Middle Chest','Lower Chest','Pects']},
+                          {'Shoulders':['Anterior Delts','Traps','Middle Delts','Rear Delts']},{'Back':['Latismus Dorsi','Trapezius','Rhomboids']},{'Biceps':['Inner','Outer','Brachialis']},{'Triceps':['Lateral Head','Long Head','Medial Head']}]
 
   const insertItem = async (msm) => {
     

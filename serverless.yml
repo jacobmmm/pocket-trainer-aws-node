@@ -401,6 +401,26 @@ resources:
           - AttributeName: excercise_id
             KeyType: RANGE
 
+    SubplanSubgroup:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: SubplanSubgroup
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 12
+          WriteCapacityUnits: 12
+        AttributeDefinitions:
+          - AttributeName: subplan_subgroup_id
+            AttributeType: S
+          # - AttributeName: excercise_id
+          #   AttributeType: S
+
+        KeySchema:
+          - AttributeName: subplan_subgroup_id
+            KeyType: HASH
+          # - AttributeName: excercise_id
+          #   KeyType: RANGE
+
     # UserExcerciseLogs:
     #   Type: AWS::DynamoDB::Table
     #   Properties:

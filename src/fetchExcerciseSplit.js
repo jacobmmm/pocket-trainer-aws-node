@@ -57,6 +57,14 @@ const fetchExcerciseSplit = async  (event) => {
     catch (error) {
         console.log("Error fetching UserPlanSubMuscDetails:", error);
     }
+
+    // Extract muscle_subgroup_id from each object in the array
+    let muscleSubgroupIds = [];
+    if (userPlanResults && userPlanResults.Items && userPlanResults.Items.length > 0) {
+        muscleSubgroupIds = userPlanResults.Items.map(item => item.muscle_subgroup_id);
+        console.log("Extracted muscle_subgroup_ids: ", muscleSubgroupIds);
+    }
+
     return {
         statusCode: 200,
         body: JSON.stringify({ message: 'Excercise Split fetched successfully',data:userPlanResults.Items }),

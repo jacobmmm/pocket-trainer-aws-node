@@ -72,6 +72,13 @@ functions:
           path: /logExcercise
           method: post
 
+  fetchExcerciseSplit:
+    handler: src/fetchExcerciseSplit.handler
+    events:
+      - httpApi:
+          path: /excerciseSplit
+          method: get
+
   fetchToDos:
     handler: src/fetchToDos.handler
     events:

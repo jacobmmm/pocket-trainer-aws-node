@@ -56,18 +56,19 @@ const subplanSubgroup = async  (event) => {
                     muscle_subgroup_id: subGroupId
                 }
 
+                let tableName = "SubplanSubgroup"
+
+                let itemToInsert = records;
+
                 const params = {
                 TableName: tableName,
-                Item: itemToInsert
+                Item: records
                 };
 
                 try {
             await dynamodb.put(params).promise();
             console.log('record inserted successfully:', records);
-            return {
-                statusCode: 200,
-                body: JSON.stringify({ message: 'Item inserted successfully' }),
-            };
+            
         } catch (error) {
             console.error('Error inserting item:', error);
             return {
@@ -86,6 +87,10 @@ const subplanSubgroup = async  (event) => {
 }
         }
     }
+    return {
+                statusCode: 200,
+                body: JSON.stringify({ message: 'Item inserted successfully' }),
+            };
 }
     
 

@@ -1,4 +1,6 @@
+const AWS = require('aws-sdk');
 
+//const { v4 } = require("uuid")
 
 const fetchExcerciseSplit = async  (event) => { 
 
@@ -23,6 +25,8 @@ const fetchExcerciseSplit = async  (event) => {
         planResults = await dynamodb.scan({TableName:"MuscleBuildPlansV2",FilterExpression: "muscle_plan_name = :mpn",
                     ExpressionAttributeValues: {":mpn": plan}}).promise()
 
+        console.log("planResults: ",planResults)
+
         musclePlanId = planResults.Items[0].muscle_plan_id;
         console.log("Muscle Plan ID for plan ",plan,": ",musclePlanId)
 
@@ -44,7 +48,7 @@ const fetchExcerciseSplit = async  (event) => {
     }
 
     try{
-        userPlanResults = await dynamodb.scan({TableName:"MusclePlanUserSubMuscle3",FilterExpression: "userId = :userId AND muscle_plan_id = :mpid",
+        userPlanResults = await dynamodb.scan({TableName:"MusclePlanUserSubMuscle3",FilterExpression: "userId = :userId AND musclePlanId = :mpid",
                     ExpressionAttributeValues: {":userId": userId,":mpid":  musclePlanId}}).promise()
 
         console.log("UserPlanSubMuscDetails: ",userPlanResults.Items)
@@ -53,4 +57,12 @@ const fetchExcerciseSplit = async  (event) => {
     catch (error) {
         console.log("Error fetching UserPlanSubMuscDetails:", error);
     }
+    return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Excercise Split fetched successfully',data:userPlanResults.Items }),
+      };
+}
+
+module.exports = {
+    handler: fetchExcerciseSplit
 }

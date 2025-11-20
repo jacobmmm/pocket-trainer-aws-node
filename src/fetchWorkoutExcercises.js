@@ -40,6 +40,10 @@ const fetchWorkoutExcercises = async (event) => {
       } 
       else {
       console.log('User not found.');
+      return {
+          statusCode: 404,
+          body: JSON.stringify({ error: 'User not found' })
+      };
       }
 
     // Find muscle_plan_id from MuscleBuildPlansV2 table
@@ -84,7 +88,7 @@ const fetchWorkoutExcercises = async (event) => {
 
             if (subMuscleQuery.Items && subMuscleQuery.Items.length > 0) {
                 for (const record of subMuscleQuery.Items) {
-                    if (record.userid === userId && record.musclePlanId === musclePlanId) {
+                    if (record.userid === userId && record.muscle_plan_id === musclePlanId) {
                         muscleSubgroupIds.push(record.muscle_subgroup_id);
                     }
                 }
@@ -263,4 +267,4 @@ const fetchWorkoutExcercises = async (event) => {
     }
 }
 
-module.exports = { fetchWorkoutExcercises };
+module.exports = { handler: fetchWorkoutExcercises };

@@ -38,6 +38,7 @@ const subplanSubgroup = async  (event) => {
             console.log("Error fetching SubPlan: ",error)
         }
         const subgroups = subplanSubgroups[sp];
+        console.log("Subgroups for ",sp,": ",subgroups)
 
         for (let sg of subgroups){
             try{

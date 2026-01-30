@@ -12,13 +12,24 @@ const fetchExcerciseSplit = async  (event) => {
               maxRetries: 3
             }
         );
-    const { plan,split,username } = JSON.parse(event.body);
+    const { plan,excSplit,username } = JSON.parse(event.body);
 
     let planResults;
     let musclePlanId;
     let userResults;
     let userId;
     let userPlanResults;
+    let splitResults;
+    let splitId;
+    let muscleGroupId;
+    let splitSubgroupResults;
+    let splitSubgroupIds = [];
+    let muscleGroupSubgroupResults;
+    let muscleGroupSubgroupIds = [];
+
+    const subplans = ["Push","Pull","Full Body"]
+    //const muscles = ["Legs","Back","Chest","Shoulders","Biceps","Triceps"]
+
     
 
     try{
@@ -64,6 +75,90 @@ const fetchExcerciseSplit = async  (event) => {
         muscleSubgroupIds = userPlanResults.Items.map(item => item.muscle_subgroup_id);
         console.log("Extracted muscle_subgroup_ids: ", muscleSubgroupIds);
     }
+
+    if(subplans.includes(excSplit)){
+       
+    
+    try{
+        splitResults = await dynamodb.scan({TableName:"MuscleSubPlan",FilterExpression: "muscle_subplan_name = :mspn",
+                    ExpressionAttributeValues: {":mspn": excSplit}}).promise()
+
+        console.log("splitResults for plan in subplans: ",splitResults)
+
+        splitId = splitResults.Items[0].muscle_subplan_id;
+        console.log("Muscle SubPlan ID for split ",excSplit,": ",splitId)
+
+
+    }    catch (error) {
+        console.log("Error processing SubPlan and SubGroups: ",error)
+    }
+
+    try{
+        splitSubgroupResults = await dynamodb.scan({TableName:"SubplanSubgroup",FilterExpression: "muscle_subplan_id = :mspid",
+                    ExpressionAttributeValues: {":mspid": splitId}}).promise()
+        console.log("splitSubgroupResults: ",splitSubgroupResults)
+
+         if (splitSubgroupResults && splitSubgroupResults.Items && splitSubgroupResults.Items.length > 0) {
+        splitSubgroupIds = splitSubgroupResults.Items.map(item => item.muscle_subgroup_id);
+        console.log("Extracted muscle_subgroup_ids: ", splitSubgroupIds);
+    }
+
+    }catch (error) {
+        console.log("Error fetching SubplanSubgroup:", error);
+    }
+
+}
+    else{
+
+     let excSplits = [];
+     //Extracting submuscles of two subgroups in case of ISOLATION (4 Day)   
+     if(excSplit.includes("+"))   {
+        excSplits = excSplit.split("+").map(s => s.trim());
+    
+     for (let es of excSplits){
+        try{
+       muscleGroupSubgroupResults = await dynamodb.scan({TableName:"MuscleGroup",FilterExpression: "muscle_group_name = :mgn",
+                    ExpressionAttributeValues: {":mgn": es}}).promise()
+
+        console.log("MuscleGroupResults for split with + : ",muscleGroupSubgroupResults)
+
+        muscleGroupId = muscleGroupSubgroupResults.Items[0].muscle_group_id;
+        console.log("Muscle Group ID for group ",es,": ",muscleGroupId)
+
+
+    }    catch (error) {
+        console.log("Error processing SubPlan and SubGroups: ",error)
+    }
+
+    try{
+        muscleGroupSubgroupResults = await dynamodb.scan({TableName:"MuscleSubgroup",FilterExpression: "muscle_subplan_id = :mspid",
+            ExpressionAttributeValues: {":mspid": splitId}}).promise()
+        }
+        catch (error) {
+            console.log("Error fetching SubplanSubgroup:", error);
+        }
+    }
+
+
+     }
+
+    
+    else{
+    try{
+        splitResults = await dynamodb.scan({TableName:"MuscleGroup",FilterExpression: "muscle_group_name = :mgn",
+                    ExpressionAttributeValues: {":mgn": excSplit}}).promise()
+
+        console.log("splitResults for split in Muscle group: ",splitResults)
+
+        splitId = splitResults.Items[0].muscle_subplan_id;
+        console.log("Muscle SubPlan ID for split ",excSplit,": ",splitId)
+
+
+    }    catch (error) {
+        console.log("Error processing SubPlan and SubGroups: ",error)
+    }
+}
+}
 
     return {
         statusCode: 200,
